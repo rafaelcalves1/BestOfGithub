@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.rafa.bestofgithub.domain.model.Items
 import com.rafa.bestofgithub.domain.model.License
 
+
 data class ItemsDto(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("node_id") var nodeId: String? = null,
@@ -82,11 +83,12 @@ data class ItemsDto(
     @SerializedName("open_issues") var openIssues: Int? = null,
     @SerializedName("watchers") var watchers: Int? = null,
     @SerializedName("default_branch") var defaultBranch: String? = null,
-    @SerializedName("score") var score: Int? = null
+    @SerializedName("score") var score: Int? = null,
 )
 
 fun ItemsDto.toItems(): Items {
     return Items(
+        id = id ?: 0,
         nomeRepo = fullName,
         qtdEstrelas = stargazersCount,
         qtdFork = forksCount,
