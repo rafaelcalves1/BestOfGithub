@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="12dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/item_img_banner_repo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/github_logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_owner_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/item_img_banner_repo"
+        android:padding="12dp"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_card_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="0dp"
+            app:cardCornerRadius="5dp"
+            >
+            <ImageView
+                android:id="@+id/item_img_icon_repo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:padding="1dp"
+                android:background="@drawable/icon_background"
+                tools:src="@drawable/github_logo"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/item_txt_nome_repo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="12dp"
+            android:textColor="@color/black"
+            tools:text="nd940-android-kotlin-c4-starter"
+            app:layout_constraintStart_toEndOf="@id/item_card_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/item_txt_owner_nome_repo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="udacity"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            app:layout_constraintStart_toStartOf="@id/item_txt_nome_repo"
+            app:layout_constraintTop_toBottomOf="@id/item_txt_nome_repo"
+            />
+
+        <TextView
+            android:id="@+id/item_txt_stars_qtd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            tools:text="11"
+            android:drawablePadding="6dp"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintTop_toBottomOf="@id/item_txt_owner_nome_repo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:drawableLeftCompat="@drawable/ic_star"
+            />
+        <TextView
+            android:id="@+id/item_txt_fork_qtd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="11"
+            android:drawablePadding="6dp"
+            android:textColor="@color/dark_gray"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toEndOf="@id/item_txt_stars_qtd"
+            app:layout_constraintTop_toTopOf="@id/item_txt_stars_qtd"
+            app:drawableLeftCompat="@drawable/ic_fork"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

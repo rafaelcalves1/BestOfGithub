@@ -4,4 +4,7 @@
     <color name="black">#FF000000</color>
     <color name="dark">#FF202020</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#f05e5e5e</color>
+    <color name="default_background">#f0f0f0</color>
+
 </resources>
