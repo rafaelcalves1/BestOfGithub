@@ -5,6 +5,9 @@ import androidx.room.Room
 import androidx.viewbinding.BuildConfig
 import com.rafa.bestofgithub.commons.Constants
 import com.rafa.bestofgithub.data.db.GitRepositoryDataBase
+import com.rafa.bestofgithub.data.remote.service.GithubApi
+import com.rafa.bestofgithub.data.repository.data_source_impl.GithubRepositorioImpl
+import com.rafa.bestofgithub.domain.repository.GitHubRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +30,12 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideGithubApi(retrofit: Retrofit): GithubApi{
+        return retrofit.create(GithubApi::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -43,5 +52,11 @@ object AppModule {
             client.addInterceptor(interceptor)
         }
         return client.build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGithubRepository(database: GitRepositoryDataBase,  githubApi: GithubApi ): GitHubRepository {
+        return GithubRepositorioImpl(dataBase = database,apiService = githubApi)
     }
 }

@@ -1,7 +1,6 @@
 package com.rafa.bestofgithub.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import com.rafa.bestofgithub.domain.model.Owner
 
 data class OwnerDto(
     @SerializedName("login") var login: String? = null,
@@ -23,10 +22,3 @@ data class OwnerDto(
     @SerializedName("type") var type: String? = null,
     @SerializedName("site_admin") var siteAdmin: Boolean? = null
 )
-
-fun OwnerDto.toOwner(): Owner {
-    return Owner(
-        nome = login,
-        foto = avatarUrl
-    )
-}

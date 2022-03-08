@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GitHubRepository {
 
-    suspend fun pegaRepository(page: Int): Flow<PagingData<List<Items>>>
+    fun pegaRepositorios(): Flow<PagingData<Items>>
 
 }

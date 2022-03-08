@@ -6,21 +6,16 @@ import androidx.paging.PagingData
 import com.rafa.bestofgithub.commons.Constants
 import com.rafa.bestofgithub.data.db.GitRepositoryDao
 import com.rafa.bestofgithub.domain.model.Items
+import com.rafa.bestofgithub.domain.repository.GitHubRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class PegaRepositoryUseCase(
-    private val dao: GitRepositoryDao,
+class PegaRepositoryUseCase @Inject constructor(
+    private val repository: GitHubRepository
 ) {
 
-    suspend operator fun invoke(): Flow<PagingData<Items>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = Constants.PER_PAGE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                GitItemsPagingSource(dao)
-            }
-        ).flow
+    operator fun invoke(): Flow<PagingData<Items>>{
+        return repository.pegaRepositorios()
     }
+
 }

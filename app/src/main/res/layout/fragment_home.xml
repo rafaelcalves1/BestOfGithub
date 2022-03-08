@@ -7,6 +7,7 @@
     tools:context=".presenter.home.fragment.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -14,6 +15,8 @@
         tools:itemCount="100"
         android:background="@color/default_background"
         tools:listitem="@layout/item_repository"
+        android:scrollbars="vertical"
+        android:scrollbarSize="5dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

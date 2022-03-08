@@ -1,5 +1,6 @@
 package com.rafa.bestofgithub.data.remote.dto
 
+import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import com.rafa.bestofgithub.domain.model.Items
 import com.rafa.bestofgithub.domain.model.License
@@ -85,14 +86,15 @@ data class ItemsDto(
     @SerializedName("default_branch") var defaultBranch: String? = null,
     @SerializedName("score") var score: Int? = null,
 )
-
+@TypeConverters
 fun ItemsDto.toItems(): Items {
     return Items(
         id = id ?: 0,
         nomeRepo = fullName,
         qtdEstrelas = stargazersCount,
         qtdFork = forksCount,
-        owner = owner.toOwner()
+        nomeOwner = owner.login,
+        avatarOwner = owner.avatarUrl
     )
 }
 

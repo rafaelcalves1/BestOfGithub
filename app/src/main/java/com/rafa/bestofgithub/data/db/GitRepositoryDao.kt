@@ -13,12 +13,11 @@ import kotlinx.coroutines.flow.Flow
 interface GitRepositoryDao {
 
     @Query("SELECT * FROM items ORDER BY qtdEstrelas DESC")
-    fun pegaItems(): PagingSource<Int, List<Items>>
+    fun pegaItems(): PagingSource<Int, Items>
 
     @Insert(onConflict = REPLACE)
     suspend fun adicionaItems(items: List<Items>)
 
-    @Query("SELECT * FROM items WHERE id= :itemId")
-    fun pegaItem(itemId: Int): Flow<Items>
-
+    @Query("DELETE FROM items")
+    suspend fun deletaItems()
 }
