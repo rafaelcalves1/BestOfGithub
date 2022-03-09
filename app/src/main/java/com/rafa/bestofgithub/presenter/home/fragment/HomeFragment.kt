@@ -12,6 +12,7 @@ import com.rafa.bestofgithub.presenter.home.adapter.RepositorysAdapter
 import com.rafa.bestofgithub.presenter.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,8 +32,11 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         binding.homeRecycler.adapter = adapter
+        adapter.addLoadStateListener { loadState ->
+            loadState.mediator?.refresh
+        }
         lifecycleScope.launch {
-            viewModel.pegaRepository().collectLatest {
+            viewModel.pegaRepository().distinctUntilChanged().collectLatest {
                 adapter.submitData(it)
             }
         }

@@ -15,12 +15,12 @@ class RepositorysAdapter : PagingDataAdapter<Items, RecyclerView.ViewHolder>(com
 
     companion object {
         private val comparacao = object : DiffUtil.ItemCallback<Items>() {
-            override fun areItemsTheSame(oldItem: Items, newItem: Items): Boolean {
-                return oldItem.id == newItem.id
-            }
+            override fun areItemsTheSame(oldItem: Items, newItem: Items): Boolean =
+                oldItem.id == newItem.id
+
 
             override fun areContentsTheSame(oldItem: Items, newItem: Items): Boolean =
-                oldItem == newItem
+                oldItem.id == newItem.id
         }
     }
 

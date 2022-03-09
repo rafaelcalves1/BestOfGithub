@@ -17,6 +17,7 @@
         tools:listitem="@layout/item_repository"
         android:scrollbars="vertical"
         android:scrollbarSize="5dp"
+        android:scrollbarThumbVertical="@color/dark_gray"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

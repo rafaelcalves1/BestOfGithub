@@ -1,4 +1,4 @@
-package com.rafa.bestofgithub.data.repository.data_source_impl
+package com.rafa.bestofgithub.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -27,7 +27,7 @@ class GithubRepositorioImpl(
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                maxSize = PAGE_SIZE + (PAGE_SIZE * 2),
+                maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
                 enablePlaceholders = false,
             ),
             remoteMediator = RepositorioRemotoMediator(

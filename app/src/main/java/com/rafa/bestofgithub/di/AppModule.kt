@@ -6,7 +6,7 @@ import androidx.viewbinding.BuildConfig
 import com.rafa.bestofgithub.commons.Constants
 import com.rafa.bestofgithub.data.db.GitRepositoryDataBase
 import com.rafa.bestofgithub.data.remote.service.GithubApi
-import com.rafa.bestofgithub.data.repository.data_source_impl.GithubRepositorioImpl
+import com.rafa.bestofgithub.data.repository.GithubRepositorioImpl
 import com.rafa.bestofgithub.domain.repository.GitHubRepository
 import dagger.Module
 import dagger.Provides
