@@ -31,15 +31,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.homeRecycler.adapter = adapter
-        adapter.addLoadStateListener { loadState ->
-            loadState.mediator?.refresh
-        }
         lifecycleScope.launch {
             viewModel.pegaRepository().distinctUntilChanged().collectLatest {
                 adapter.submitData(it)
             }
         }
-        return binding.root
     }
 }

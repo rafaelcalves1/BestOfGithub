@@ -32,8 +32,7 @@ class RepositorioRemotoMediator @Inject constructor(
 
     @Throws
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Items>): MediatorResult {
-        val pageKeyData = getKeyPageData(loadType, state)
-        val page = when (pageKeyData) {
+        val page = when (val pageKeyData = getKeyPageData(loadType, state)) {
             is MediatorResult.Success -> {
                 return pageKeyData
             }
@@ -67,7 +66,7 @@ class RepositorioRemotoMediator @Inject constructor(
                 githubDB.remoteKeyDao().adicionaKeys(keys ?: emptyList())
                 githubDB.gitRepositoryDao().adicionaItems(items ?: emptyList())
             }
-            return MediatorResult.Success(endOfPaginationReached = isEndOfList ?: true)
+            return MediatorResult.Success(endOfPaginationReached = isEndOfList!!)
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
