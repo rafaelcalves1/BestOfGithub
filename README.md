@@ -1,4 +1,4 @@
-# Melhores do GitHub
+# Melhores-do-Github
 
 ## Sobre o projeto
 Este projeto foi criado com o objetivo de aplicar os resultados dos meus estudos, para a criação do projeto, utilizei as seguintes tecnologias:
