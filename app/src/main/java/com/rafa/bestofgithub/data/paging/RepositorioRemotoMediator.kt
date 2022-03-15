@@ -7,12 +7,15 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.rafa.bestofgithub.commons.Constants
+import com.rafa.bestofgithub.commons.Resposta
 import com.rafa.bestofgithub.data.db.GitRepositoryDataBase
 import com.rafa.bestofgithub.data.remote.dto.toItems
 import com.rafa.bestofgithub.data.remote.service.GithubApi
 import com.rafa.bestofgithub.domain.model.Items
 import com.rafa.bestofgithub.domain.model.RemoteKey
+import com.rafa.bestofgithub.domain.model.ResultResponse
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -41,32 +44,15 @@ class RepositorioRemotoMediator @Inject constructor(
             }
         }
         try {
-            val response = githubApi.getRepositorys(
-                q = Constants.SEARCH_KEYWORD,
-                order = Constants.ORDER_DESC,
-                sort = Constants.SORT_STARS,
-                perPage = state.config.pageSize,
-                page = page
-            )
-            if (!response.isSuccessful)
-                return MediatorResult.Error(Throwable(message = "400"))
-            val isEndOfList = response.body()?.items?.isEmpty()
-            githubDB.withTransaction {
-                if (loadType == REFRESH) {
-                    githubDB.gitRepositoryDao().deletaItems()
-                    githubDB.remoteKeyDao().deletaKeys()
-                }
-                val prevKey = if (page == PAGE_START) null else page - 1
-                val nextKey = if (isEndOfList != false) null else page + 1
-                val keys = response.body()?.items?.map {
-                    RemoteKey(id = it.id.toString(), prevKey = prevKey, nextKey = nextKey)
-                }
-                val items = response.body()?.items?.map { it.toItems() }
+            val response = returnResponse(page, state)
 
-                githubDB.remoteKeyDao().adicionaKeys(keys ?: emptyList())
-                githubDB.gitRepositoryDao().adicionaItems(items ?: emptyList())
-            }
-            return MediatorResult.Success(endOfPaginationReached = isEndOfList!!)
+            if (!response.isSuccessful)
+                return MediatorResult.Error(Throwable(message = "500"))
+            val result = configReturnResponse(response, page)
+
+            transactionBd(loadType, result.remoteKeys, result.items)
+
+            return MediatorResult.Success(endOfPaginationReached = result.items.isEmpty())
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
@@ -116,5 +102,50 @@ class RepositorioRemotoMediator @Inject constructor(
             .firstOrNull { it.data.isNotEmpty() }
             ?.data?.firstOrNull()
             ?.let { item -> githubDB.remoteKeyDao().pegaKeyById(item.id.toString()) }
+    }
+
+    private suspend fun transactionBd(
+        loadType: LoadType,
+        keys: List<RemoteKey>,
+        items: List<Items>
+    ) {
+        githubDB.withTransaction {
+            if (loadType == REFRESH) {
+                githubDB.gitRepositoryDao().deletaItems()
+                githubDB.remoteKeyDao().deletaKeys()
+            }
+            githubDB.remoteKeyDao().adicionaKeys(keys)
+            githubDB.gitRepositoryDao().adicionaItems(items)
+        }
+    }
+
+    private suspend fun returnResponse(
+        page: Int,
+        state: PagingState<Int, Items>
+    ): Response<Resposta> {
+        return githubApi.getRepositorys(
+            q = Constants.SEARCH_KEYWORD,
+            order = Constants.ORDER_DESC,
+            sort = Constants.SORT_STARS,
+            perPage = state.config.pageSize,
+            page = page
+        )
+    }
+
+    private fun configReturnResponse(response: Response<Resposta>, page: Int): ResultResponse {
+        val isEndOfList = response.body()?.items?.isEmpty()
+
+        val prevKey = if (page == PAGE_START) null else page - 1
+        val nextKey = if (isEndOfList != false) null else page + 1
+
+        val keys = response.body()?.items?.map {
+            RemoteKey(id = it.id.toString(), prevKey = prevKey, nextKey = nextKey)
+        }
+        val items = response.body()?.items?.map { it.toItems() }
+
+        return ResultResponse(
+            remoteKeys = keys ?: emptyList(),
+            items = items ?: emptyList()
+        )
     }
 }

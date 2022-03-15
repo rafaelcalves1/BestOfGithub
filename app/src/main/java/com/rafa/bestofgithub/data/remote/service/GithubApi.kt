@@ -1,8 +1,7 @@
 package com.rafa.bestofgithub.data.remote.service
 
 import com.rafa.bestofgithub.commons.Constants
-import com.rafa.bestofgithub.commons.Response
-import kotlinx.coroutines.flow.Flow
+import com.rafa.bestofgithub.commons.Resposta
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,5 +14,5 @@ interface GithubApi {
         @Query (value = "order") order: String = Constants.ORDER_DESC,
         @Query (value = "per_page") perPage: Int,
         @Query (value = "page") page: Int = 1
-    ): retrofit2.Response<Response>
+    ): retrofit2.Response<Resposta>
 }
